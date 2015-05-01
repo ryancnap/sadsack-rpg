@@ -40,7 +40,7 @@
 COPYRIGHT:  RYAN CAMARATTA, 2014
 CONTACT:    RYANCNAP@GMAIL.COM
 
-DEPENDS ON: PYTHON 2.X; PYGAME(V.?); my MAPS.PY MODULE
+DEPENDS ON: PYTHON 2.X; PYGAME(V.?);
 
 """
 
@@ -53,22 +53,12 @@ from pygame import *
 # figure out what pygame module deals with event/keypress handling as
 # that seems to be the problem.
 
-# OLD: Need maps module; not only for map, but that's where my screen object is
-# defined.
-# NEW: Need tiledtmxloader by ___. 
+# Need tiledtmxloader. 
 import tiledtmxloader
-
-# If you read the docstring at the top of file, you know that there's no
-# rhyme or reason to my framerate; but this is where I put constants.
-
-# This is where I used to define constants for tilemap size and screen.
-# Now it's just a cozy home to set fonts :)
-
-
 
 # parse the map. (it is done here to initialize the
 # window the same size as the map if it is small enough)
-path_to_map = os.path.join(os.pardir, "../../../python-dev/game/tile-images/tmx-tilemaps/hopefully.tmx")
+path_to_map = os.path.join(os.pardir, "../../python-dev/game/tile-images/tmx-tilemaps/hopefully.tmx")
 print("usage: python %s your_map.tmx\n\nUsing default map '%s'\n" % \
         (os.path.basename(__file__), path_to_map))
 
@@ -140,8 +130,6 @@ class Player:
             # TODO: this seems really hacky...
             # making a class method rely on a global variable sounds like it's bad
             # but should the Player class need to know anything about the camera?
-            # maybe incorporate camera details into the Player class and he can
-            # act as the view?
             global cam_world_pos_x
             cam_world_pos_x = cam_world_pos_x + 1
             if self.ani_speed == 0:
@@ -184,7 +172,7 @@ class Player:
             #screen.blit(inv_text, [MAP_WIDTH * TILE_SIZE - 400,
              #                      MAP_HEIGHT * TILE_SIZE + 20])
 
-# ***** End base class Player
+# end player class
 
 player1 = Player()
 x_pos = 0
@@ -208,7 +196,6 @@ while True:
     for sprite_layer in sprite_layers:
         if sprite_layer.is_object_group:
             # we dont draw the object group layers
-            # you should filter them out if not needed
             continue
         else:
             renderer.render_layer(screen, sprite_layer)
@@ -270,6 +257,7 @@ while True:
     player1.update_y(y_pos)
     player1.populate_inv('Sword', 'A rusty thing')
     pygame.display.update()
-    # Line 227-ish, only updating cam_world_pos_x for every right button press.
+    # Line 227-ish, only updating cam_world_pos_x for every right button press, 
+    # just wanted to see if it worked. 
     renderer.set_camera_position_and_size(cam_world_pos_x, cam_world_pos_y, \
                                     screen_width, screen_height, "topleft")
